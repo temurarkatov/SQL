@@ -59,6 +59,6 @@ BEGIN
 			IF		DATEPART(WEEKDAY, @date)=@alternate_day
 				SET @previous_week_present = IIF(@previous_week_present=1,0,1);
 
-			SET		@date =	dbo.GetNextLearningDate(@group_name, @date);
+			SET		@date =	dbo.GetNextLearningDate(@group_name, @date); 
 	END
 END
