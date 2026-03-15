@@ -1,0 +1,12 @@
+SET DATEFIRST 1;
+GO
+CREATE OR ALTER FUNCTION GetNextLearningDay(@group_name	AS	NCHAR(10), @last_date AS DATE = N'1900-01-01') RETURNS	TINYINT
+AS
+BEGIN
+	DECLARE @group_id	AS	INT		=	(SELECT group_id	FROM Groups		WHERE group_name=@group_name);
+	DECLARE @weekdays	AS	TINYINT	=	(SELECT weekdays	FROM Groups		WHERE group_name=@group_name);
+	IF @last_date=CAST(N'1900-01-01' AS DATE)
+		SET @last_date				=	(SELECT MAX([date]) FROM Schedule	WHERE [group]=@group_id);
+--	DECLARE @last_date	AS	DATE	=	(SELECT MAX([date]) FROM Schedule	WHERE [group]=@group_id);
+	DECLARE @last_day	AS	TINYINT	=	DATEPART(WEEKDAY,@last_date);
+	DECLARE	@day		AS	TINYINT	=	@last_day + 1;
